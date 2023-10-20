@@ -1,0 +1,2 @@
+To config this app, create a new .env based in .env.example, this file will be responsible for docker mysql ports and credentials, after that just run with docker to start:
+`docker-compose up --build` or `docker-compose up --build -d` to detach.

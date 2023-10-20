@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+    networks:
+      - fullcycle
+    depends_on:
+      - db
+  db:
+    image: mysql:5.7 
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD?err} 
+      MYSQL_DATABASE: ${DB_NAME?err}
+      MYSQL_USER: ${DB_USER?err}
+      MYSQL_PASSWORD: ${DB_PASSWORD?err}
+    ports:
+      - "3306:3306" 
+    volumes:
+      - ./mysql:/var/lib/mysql 
+    networks:
+      - fullcycle
+  
+  server:
+    image: nginx:latest
+    ports:
+      - "8080:80" 
+    volumes:
+      - ./nginx:/etc/nginx
+    depends_on:
+      - app
+    networks:
+      - fullcycle
+
+networks:
+  fullcycle: 
